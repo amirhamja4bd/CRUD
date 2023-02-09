@@ -29,6 +29,10 @@ app.use(bodyParser.json())
 // Rate Limit
 const limiter = rateLimit({windowMs: 15*60*60, max:3000})
 
+
+// Manage BackEnd Routings
+app.use("/api/v1", router)
+
 // Database Connection
 let URI = 'mongodb+srv://<username>:<password>@cluster0.gsyup6g.mongodb.net/CRUD?retryWrites=true&w=majority';
 let OPTION = {user: 'testuser7777', pass: 'testuser7777', autoIndex: true};
@@ -38,13 +42,10 @@ mongoose.connect(URI, OPTION, (error)=>{
 })
 
 
-// Manage BackEnd Routings
-app.use("/api/v1", router)
-
 //Manage Frontend Routes
 app.use(express.static('client/build'))
 app.get("*", function (req, res) {
-    req.sendFile(path.resolve(__dirname,'client','build', 'index.html'))
+    res.sendFile(path.resolve(__dirname,'client','build', 'index.html'))
 })
 
 
